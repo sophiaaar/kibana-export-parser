@@ -5,4 +5,3 @@ kibanaFile = open("export.json", "w")
 j = json.loads(kibanaFile)
 
 print j["_id"]
-print("test")
