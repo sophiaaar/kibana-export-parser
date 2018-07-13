@@ -12,30 +12,26 @@ for i, value in enumerate(j):
 		title = j[i]['_source']['title']
 		
 
-		if '-' in title:
-			#print "yes -"
-			if '2018.2' in title:
+		if '2018.3' in title:
 				#print "yes .2"
 				#print j[i]['_source']['kibanaSavedObjectMeta']['searchSourceJSON']
+			print title
 
-				searchsource = json.loads(j[i]['_source']['kibanaSavedObjectMeta']['searchSourceJSON'])
-				if '182' in searchsource["index"]:
-					print searchsource["index"]
-					print title
-					
-				else:
-					print "invalid index"
-					outputFile.write(title + "\n")
-					outputFile.write(searchsource["index"] + "\n")
-					outputFile.write("\n")
-					outputFile.write("invalid index\n")
-					outputFile.write("\n")
+			searchsource = json.loads(j[i]['_source']['kibanaSavedObjectMeta']['searchSourceJSON'])
+			if '183' not in searchsource["index"]:
 
+				index = searchsource["index"]
+				print index
+				index = index[:-3]
+				index = index + "183"
+				searchsource["index"] = index
+				j[i]['_source']['kibanaSavedObjectMeta']['searchSourceJSON'] = searchsource
+				print index
 
-		#print j[i]['_source']['kibanaSavedObjectMeta']['searchSourceJSON']["index"]
-			#check title name
-		#if the title and index arent equal
-		#change the index to reflect the title
-	else:
-		print "no"
+newExport = open("newExport.json", "w")
+newExport.write(str(j))
+newExport.close()
+
+lol = open("newExport.json")
+
 outputFile.close()
