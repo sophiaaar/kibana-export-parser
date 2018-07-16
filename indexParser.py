@@ -1,4 +1,5 @@
 import json
+import sys
 
 kibanaFile = open("export.json", "r+").read()
 outputFile = open("output.txt", "w")
@@ -12,18 +13,19 @@ for i, value in enumerate(j):
 		title = j[i]['_source']['title']
 		
 
-		if '2018.3' in title:
+		if sys.argv[1] in title:
 				#print "yes .2"
 				#print j[i]['_source']['kibanaSavedObjectMeta']['searchSourceJSON']
 			print title
 
 			searchsource = json.loads(j[i]['_source']['kibanaSavedObjectMeta']['searchSourceJSON'])
-			if '183' not in searchsource["index"]:
+			indexNum = sys.argv[1].replace(".", "")[2:]
+			if indexNum not in searchsource["index"]:
 
 				index = searchsource["index"]
 				print index
 				index = index[:-3]
-				index = index + "183"
+				index = index + indexNum
 				searchsource["index"] = index
 				j[i]['_source']['kibanaSavedObjectMeta']['searchSourceJSON'] = searchsource
 				print index
